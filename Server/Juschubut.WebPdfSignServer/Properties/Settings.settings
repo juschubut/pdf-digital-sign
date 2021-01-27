@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Juschubut.WebPdfSignServer.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="UrlChoiqueFirma" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://apprw/rrhhjud/Agente/Firma/{documento}/</Value>
+    </Setting>
+    <Setting Name="DMZToken" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ade05759-cfed-4f12-ad6d-c76e3ebf31fa</Value>
+    </Setting>
+    <Setting Name="IsDMZMode" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DMZUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://apps1.juschubut.gov.ar/pdfsignserver</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,61 @@
+﻿@using Juschubut.WebPdfSignServer
+@model Sign
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/_Main.cshtml";
+    
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+        });
+
+    </script>
+}
+
+<h2>Firma <strong>@Model.SignID</strong></h2>
+
+
+
+
+<div>
+
+
+    <ul>
+        @if (Model.Setup != null)
+        {
+            if (Model.Setup.Archivos != null && Model.Setup.Archivos.Count > 0)
+            { 
+            <li>
+                <h3>Archivos</h3>
+
+                <ul>
+                    @foreach (var archivo in Model.Setup.Archivos)
+                    { 
+                        <li>@string.Format("{0} - {1}", archivo.ID, archivo.Nombre)
+                            @if (!string.IsNullOrEmpty(archivo.Url) || !string.IsNullOrEmpty(archivo.UrlArchivoFirmado))
+                            {
+                                <ul>
+                                    <li>@archivo.Url</li>
+                                    <li>@archivo.UrlArchivoFirmado</li>
+                                </ul>
+                            }
+                        </li>
+                    }
+                </ul>
+            </li>
+            }
+        }
+
+        <li>
+            <h3>Status</h3>
+            <ul>
+                @foreach (Status status in Model.Status)
+                { 
+                    <li>@string.Format("{0} - {1}", status.Codigo, status.Descripcion)</li>
+                }
+            </ul>
+
+        </li>
+
+    </ul>
+</div>

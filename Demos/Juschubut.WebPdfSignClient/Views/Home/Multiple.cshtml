@@ -1,0 +1,219 @@
+﻿@{
+    ViewBag.Title = "Multiple";
+    Layout = "~/Views/_Main.cshtml";
+   
+}
+<script src="https://apprw/PdfSignServer/Js/jquery.juschubutSign-1.0.js"></script>
+
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+
+        var frame = $('#ifr');
+
+        $('#listaArchivos a').click(function () {
+            var btn = $(this);
+
+            $('#listaArchivos a').removeClass('active');
+
+            btn.addClass('active');
+
+            mostrar(btn.data('url'));
+        });
+
+        $('.btn-firmar').click(function () {
+
+            var options = {                
+                archivos: [],
+
+                modo: $('#cboModo').val(),
+
+                leyenda: $('#txtLeyenda').val(),
+
+                cargo: $('#txtCargo').val(),
+
+                altoFirma: $('#cboAlto').val(),
+
+                layout: $('#cboLayout').val(),
+
+                numeroFirmante: $('#cboFirmante').val(),
+
+                onStart: function () {
+                },
+
+                onComplete: function (rs) {
+
+                    $('#mainLog').text('Firma completada');
+
+                    $('#ifr').attr("src", rs.url);
+
+                    var archivos = rs.result.archivos;
+
+                    for (var i = 0; i < archivos.length; i++) {
+                    
+                        var archivo = archivos[i];
+
+                        var btn = $('#listaArchivos a[data-archivoid=' + archivo.id + ']');
+                        
+                        btn.data('url', archivo.urlArchivoFirmado);
+                    }
+                },
+
+                onProgress: function (rs) {
+
+                    var ultimoStatus = rs.ultimoStatus;
+
+                    $('#log li').remove();
+
+                    var ul = $('#log')
+
+                    for (var i = 0; i < rs.status.length; i++) {
+
+                        var li = $('<li/>');
+                        var item = rs.status[i];
+
+                        var text = formatStatus(item);
+
+                        li.text(text);
+                        ul.append(li);
+                    }
+
+                    var mainLog = $('#mainLog');
+
+                    mainLog.text(formatStatus(ultimoStatus));
+                },
+
+                onError: function (err) {
+                    $('#mainLog').text('ERROR - ' + err);
+                }
+            };
+
+            $('#listaArchivos a').each(function (idx, obj) {
+                var a = $(obj);
+                options.archivos.push(
+                    {
+                        nombre: a.text(),
+                        url: a.data('url'),
+                        id: a.data('archivoid')
+                    });
+            });
+             
+
+            $.juschubutSign(options);
+        });
+
+        $('.btn-descargar').click(function () {
+            window.open($('#ifr').attr('src'));
+        });
+
+        function mostrar(url) {
+
+            frame.attr('src', url);
+        }
+    });
+
+    function formatStatus(statusItem) {
+        if (statusItem.descripcion == null)
+            return statusItem.codigo;
+        else
+            return statusItem.codigo + " - " + statusItem.descripcion;
+    }
+
+</script>
+<h3>Multiples documentos</h3>
+
+<div class="row">
+    <div class="col-xs-8">
+
+        <div id="listaArchivos" class="list-group">
+            <a href="#" data-archivoid="archivo1" data-url="@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Url.Content("~/Content/Demos/demo1.pdf?v=" + DateTime.Now.Ticks.ToString()))" class="list-group-item active">Informe 1235 - Absolucion</a>
+            <a href="#" data-archivoid="archivo2" data-url="@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Url.Content("~/Content/Demos/demo2.pdf?v=" + DateTime.Now.Ticks.ToString()))" class="list-group-item">Informe 3251 - Rebeldia</a>
+            <a href="#" data-archivoid="archivo3" data-url="@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Url.Content("~/Content/Demos/demo3.pdf?v=" + DateTime.Now.Ticks.ToString()))" class="list-group-item">Informe 3251 - Condena</a>
+        </div>
+
+        <iframe id="ifr" src="@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Url.Content("~/Content/Demos/demo1.pdf?v=" + DateTime.Now.Ticks.ToString()))" height="500" width="100%"></iframe>
+        <div>
+            <button class="pull-left btn btn-success btn-descargar">Descargar</button>
+            <button class="pull-right btn btn-primary btn-firmar">Firmar</button>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div>
+            <div class="form-group">
+                <label>Leyenda</label><span> - campos especiales: {fecha} {fecha-hora}</span>
+                <input id="txtLeyenda" type="text" class="form-control" value="Firmado digitalmente el {fecha-hora} por" />
+            </div>
+
+            <div class="form-group">
+
+                <label>Cargo</label>
+                <input id="txtCargo" type="text" class="form-control" value="Juez Penal" />
+
+            </div>
+
+             <div class="form-group">
+
+                <label>Alto de la firma</label>
+                <select id="cboAlto" class="form-control">
+                    <option value="200">200</option>
+                    <option selected="selected" value="150">150</option>
+                    <option value="100">100</option>
+                    <option value="80">80</option>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Layout</label>
+                <select id="cboLayout" class="form-control">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option selected="selected" value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Firmante numero</label>
+                <select id="cboFirmante" class="form-control">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Modo</label>
+                <select id="cboModo" class="form-control">
+                    <option value="oculto">Oculto</option>
+                    <option value="visible">Visible</option>
+                </select>
+
+            </div>
+
+            <div id="mainLog" class="alert alert-info"></div>
+
+            <div id="token"></div>
+        </div>
+        <ul id="log">
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+    </div>
+</div>
+
+<div style="margin-top: 20px;">
+</div>

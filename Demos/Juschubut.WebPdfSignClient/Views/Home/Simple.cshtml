@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/_Main.cshtml";
+}
+    <script src="https://apprw/PdfSignServer/Js/jquery.juschubutSign-1.0.js"></script>
+
+    <script type="text/javascript">
+        
+        $(document).ready(function () {
+            $('.btn-firmar').click(function () {
+                
+                $.juschubutSign({
+                    urlArchivo: $('#ifr').attr('src'),
+                    onComplete: function (rs) {
+                        $('#mainLog').text('Firma completada');
+
+                        $('#ifr').attr("src", rs.url);
+                    },
+                    onError: function (err) {
+                        $('#mainLog').text('ERROR - ' + err);
+                    },
+
+                });
+            })
+
+
+            $('.btn-descargar').click(function () {
+
+                window.open($('#ifr').attr('src'));
+            });
+        });     
+
+    </script>
+<h3>Simple</h3>
+
+<div class="row">
+    <div class="col-xs-8">
+        <iframe id="ifr" src="@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Url.Content("~/Content/Demos/demo1.pdf?v=" + DateTime.Now.Ticks.ToString()))" height="500" width="100%"></iframe>
+        <div>
+            <button class="pull-left btn btn-success btn-descargar">Descargar</button><button class="pull-right btn btn-primary btn-firmar">Firmar</button>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div>
+            <div id="mainLog" class="alert alert-info"></div>
+
+            <div id="token"></div>
+        </div>
+        <ul id="log">
+        </ul>
+    </div>
+</div>

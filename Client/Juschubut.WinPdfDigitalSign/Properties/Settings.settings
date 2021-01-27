@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Juschubut.WinPdfDigitalSign.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="StatusUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Admin/Status</Value>
+    </Setting>
+    <Setting Name="UploadUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Admin/Upload/</Value>
+    </Setting>
+    <Setting Name="FirmaUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Content/Firmas/</Value>
+    </Setting>
+    <Setting Name="GetFirma" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Admin/GetFirma</Value>
+    </Setting>
+    <Setting Name="GetMetadata" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Admin/GetMetadata</Value>
+    </Setting>
+    <Setting Name="WebPdfSignServer" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://apprw/PdfSignServer/</Value>
+    </Setting>
+    <Setting Name="WebPdfSignServerDMZ" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://apps1.juschubut.gov.ar/PdfSignServer/</Value>
+    </Setting>
+    <Setting Name="SecurityToken" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ade05759-cfed-4f12-ad6d-c76e3ebf31fa</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

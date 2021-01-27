@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Juschubut.WebPdfSignClient.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="UrlFirmador" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://apptt/juschubutpdfsign/Juschubut.WinPdfDigitalSign.application</Value>
+    </Setting>
+    <Setting Name="UrlSignServer" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://apptt/PdfSignServer</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

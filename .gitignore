@@ -1,0 +1,16 @@
+**/.vs
+**/bin
+**/obj
+**/temp
+
+*.pdb
+*.suo
+*.scc
+*.cache
+*.suo
+*.user
+
+Thumbs.db
+
+packages/*
+!packages/Juschubut.Logger.dll

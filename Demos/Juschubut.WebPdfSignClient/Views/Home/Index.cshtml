@@ -1,0 +1,198 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/_Main.cshtml";
+}
+<script src="https://apprw/PdfSignServer/Js/jquery.juschubutSign-1.0.js?v=12"></script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        
+        $('#cboLayout').change(onLayoutChange);
+
+        $('.btn-firmar').click(function () {
+
+            $.juschubutSign({
+                urlArchivo: $('#ifr').attr('src'),
+                modo: $('#cboModo').val(),
+                leyenda: $('#txtLeyenda').val(),
+                cargo: $('#txtCargo').val(),
+                layout: $('#cboLayout').val(),
+
+                posicionXFirma: $('#txtX').val(),
+                posicionYFirma: $('#txtY').val(),
+                anchoFirma: $('#txtAncho').val(),
+                altoFirma: $('#txtAlto').val(),
+
+                numeroFirmante: $('#cboFirmante').val(),
+
+                onStart: function () {
+                },
+                onComplete: function (rs) {
+                    $('#mainLog').text('Firma completada');
+
+                    $('#ifr').attr("src", rs.url);
+                },
+                onProgress: function (rs) {
+                    var ultimoStatus = rs.ultimoStatus;
+
+                    $('#log li').remove();
+
+                    var ul = $('#log')
+
+                    for (var i = 0; i < rs.status.length; i++) {
+
+                        var li = $('<li/>');
+                        var item = rs.status[i];
+
+                        var text = formatStatus(item);
+
+                        li.text(text);
+                        ul.append(li);
+                    }
+
+                    var mainLog = $('#mainLog');
+
+                    mainLog.text(formatStatus(ultimoStatus));
+                },
+                onError: function (err) {
+                    $('#mainLog').text('ERROR - ' + err);
+                },
+
+            });
+        })
+
+        $('.btn-descargar').click(function () {
+            window.open($('#ifr').attr('src'));
+        });
+
+        onLayoutChange();
+
+        function onLayoutChange() {
+            var v = $('#cboLayout').val();
+            var enable = false;
+
+            if (v == "-1")
+                enable = true;
+
+            enableControl('#txtX', enable);
+            enableControl('#txtY', enable);
+            enableControl('#txtAncho', enable);
+
+            function enableControl(id, enable) {
+                var ctl = $(id).closest('.form-group');
+
+                if (enable)
+                    ctl.show();
+                else
+                    ctl.hide();
+            }
+        }
+    });
+
+    function formatStatus(statusItem) {
+        if (statusItem.descripcion == null)
+            return statusItem.codigo;
+        else
+            return statusItem.codigo + " - " + statusItem.descripcion;
+    }
+
+</script>
+<h3>Un solo documento</h3>
+
+<div class="row">
+    <div class="col-xs-8">
+        <iframe id="ifr" src="@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Url.Content("~/Content/Demos/demo1.pdf?v=" + DateTime.Now.Ticks.ToString()))" height="500" width="100%"></iframe>
+        <div>
+            <button class="pull-left btn btn-success btn-descargar">Descargar</button>
+            <button class="pull-right btn btn-primary btn-firmar">Firmar</button>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div>
+            <div class="form-group">
+
+                <label>Leyenda</label><span> - campos especiales: {fecha} {fecha-hora}</span>
+                <input id="txtLeyenda" type="text" class="form-control" value="Firmado digitalmente el {fecha-hora} por" />
+            </div>
+
+            <div class="form-group">
+
+                <label>Cargo</label>
+                <input id="txtCargo" type="text" class="form-control" value="Juez Penal" />
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Layout</label>
+                <select id="cboLayout" class="form-control">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option selected="selected" value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="-1">Posicion Personalizada</option>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+                <label>Posicion X</label>
+                <input type="text" id="txtX" class="form-control" value="0" />
+            </div>
+            <div class="form-group">
+                <label>Posicion Y</label>
+                <input type="text" id="txtY" class="form-control" value="0" />
+            </div>
+            <div class="form-group">
+                <label>Ancho</label>
+                <input type="text" id="txtAncho" class="form-control" value="300" />
+            </div>
+            <div class="form-group">
+                <label>Alto</label>
+                <input type="text" id="txtAlto" value="150" class="form-control" />
+            </div>
+
+            <div class="form-group">
+
+                <label>Firmante numero</label>
+                <select id="cboFirmante" class="form-control">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Modo</label>
+                <select id="cboModo" class="form-control">
+                    <option value="oculto">Oculto</option>
+                    <option value="visible">Visible</option>
+                </select>
+
+            </div>
+
+            <div id="mainLog" class="alert alert-info"></div>
+
+            <div id="token"></div>
+        </div>
+        <ul id="log">
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+    </div>
+</div>
+
+<div style="margin-top: 20px;">
+</div>
